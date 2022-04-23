@@ -1,50 +1,94 @@
-// const mysql = require('mysql2');
 const inquirer = require('inquirer');
 require('dotenv').config();
-// const queryFunctions = require('./queryFunctions')
-const { allDepts } = require('./queryFunctions')
-// Connect to database
-// const db = mysql.createConnection(
-//     {
-//         host: 'localhost',
-//         // MySQL username,
-//         user: 'root',
-//         password: 'root',
-//         database: 'emp_tracker_db'
-//     },
-//     console.log(`Connected to the database.`)
-// );
+
+const { allDepts, allEmploys, allEmployRoles } = require('./queryFunctions')
+
 const opt = ["ALL_DEPT", "ALL_ROLES"];
 function startApp() {
-    inquirer.prompt([
+    inquirer
+    .prompt([
         {
             type: "list",
-            name: "userview",
-            message: "What you want to see?",
-            choices: opt
+            name: "menu",
+            message: "What would you like to do?",
+            choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 
+            'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit']
         }
     ])
-        .then((ans) => {
-            console.log(ans);
-            switch (ans.userview) {
-                case opt[0]:
+        .then(userChoice => {
+            
+            switch (userChoice.menu) {
+                case "View All Employees":
+                    allEmploys();
+                    break;
+
+                case "Add Employee":
+                    break;
+
+                case "Update Employee Role":
+                    break;
+
+                case "View All Roles":
+                    allEmployRoles();
+                    break;
+
+                case "Add Role":
+                    break;
+
+                case "View All Departments":
                     // queryFunctions.allDepts();
                     allDepts();
                     break;
 
-                default:
+                case "Add Department":
                     break;
+
+                case "Quit":
             }
         })
 }
 
 startApp();
 
-// function allDepts() {
-//     db.query('SELECT * FROM department', function (err, results) {
-//         console.log(results);
-//         startApp();
-//     });
-// }
+function addEmployee() {
+    inquirer
+    .prompt([
+        {
+            type: 'input',
+            name: 'firstName',
+            message: 'What is the first name of your employee?'
+        },
+
+        {
+            type: 'input',
+            name: 'lastName',
+            message: 'What is the last name of your employee?'
+        },
+
+        {
+            type: 'input',
+            name: 'roleID',
+            message: 'What is the role id of the employee?'
+        },
+
+        {
+            type: 'input',
+            name: 'managerID',
+            message: 'What is the manager id of the employee?'
+        }
+    ]).then(answers => {
+        // const newEmployee = `INSERT INTO employee (answers.firstName, answers.lastName, answers.roleID, answers.managerID)`;
+        // db.query(newEmployee, (err, rows) => {
+        //     if (err) {
+        //         res.status(500).json({ error: err.message });
+        //          return;
+        //       }
+        //       res.json({
+        //         message: 'success',
+
+        //       });
+        // })
+    })
+}
 
 
