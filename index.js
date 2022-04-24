@@ -34,6 +34,7 @@ function startApp() {
                     break;
 
                 case "Add Role":
+                    addRole();
                     break;
 
                 case "View All Departments":
@@ -123,6 +124,21 @@ function addDepartment() {
         }
     ]).then(answers => {
         db.query(`INSERT INTO department (name) Values (?)`, answers.deptName, (err, res) => {
+            startApp();
+        })
+    })
+}
+
+function addRole() {
+    inquirer
+    .prompt([
+        {
+            type: 'input',
+            name: 'roleName',
+            message: 'What is the name of the new role?'
+        }
+    ]).then(answers => {
+        db.query(`INSERT INTO emp_role (title) Values (?)`, answers.roleName, (err, res) => {
             startApp();
         })
     })
