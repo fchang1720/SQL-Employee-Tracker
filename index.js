@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 require('dotenv').config();
-
+const {db} = require('./connection')
 const { allDepts, allEmploys, allEmployRoles } = require('./queryFunctions')
 
 // const opt = ["ALL_DEPT", "ALL_ROLES"];
@@ -19,17 +19,18 @@ function startApp() {
             
             switch (userChoice.menu) {
                 case "View All Employees":
-                    allEmploys();
+                    allEmploys;
                     break;
 
                 case "Add Employee":
+                    addEmployee();
                     break;
 
                 case "Update Employee Role":
                     break;
 
                 case "View All Roles":
-                    allEmployRoles();
+                    allEmployRoles;
                     break;
 
                 case "Add Role":
@@ -37,10 +38,11 @@ function startApp() {
 
                 case "View All Departments":
                     // queryFunctions.allDepts();
-                    allDepts();
+                    allDepts;
                     break;
 
                 case "Add Department":
+                    addDepartment();
                     break;
 
                 case "Quit":
@@ -48,6 +50,7 @@ function startApp() {
         })
 }
 
+// Banner that is displayed once index.js is initialized. Created using text art generator online.
 console.log(`
  __________________________________________________________________________
 |                                                                          |
@@ -110,4 +113,17 @@ function addEmployee() {
     })
 }
 
-
+function addDepartment() {
+    inquirer
+    .prompt([
+        {
+            type: 'input',
+            name: 'deptName',
+            message: 'What is the name of the new department?'
+        }
+    ]).then(answers => {
+        db.query(`INSERT INTO department (name) Values (?)`, answers.deptName, (err, res) => {
+            startApp();
+        })
+    })
+}
