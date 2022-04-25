@@ -27,6 +27,8 @@ function startApp() {
                     break;
 
                 case "Update Employee Role":
+                    console.log("hello World")
+                    
                     break;
 
                 case "View All Roles":
@@ -38,8 +40,9 @@ function startApp() {
                     break;
 
                 case "View All Departments":
-                    // queryFunctions.allDepts();
-                    allDepts;
+                   
+                    allDepts();
+                    
                     break;
 
                 case "Add Department":
@@ -143,3 +146,4 @@ function addRole() {
         })
     })
 }
+

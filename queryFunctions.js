@@ -1,5 +1,5 @@
-const {db} = require('./connection')
-const mysql = require('mysql2');
+const db = require('./connection')
+
 function allEmploys() {
     
     let sql1 = `SELECT employee.id AS "ID",
@@ -14,27 +14,23 @@ function allEmploys() {
                 JOIN department ON emp_role.dept_id = department.id;`
 
     db.query(sql1, (err, results) => {
-                if (err) {
-                    throw err
-                }
-                console.log(results)
-            startApp();
+
+            // startApp();
     });
 }
 
 function allEmployRoles() {
-    db.query('SELECT * FROM emp_role;', function (err, results) {
-        startApp();
+    db.query('SELECT * FROM emp_role', function (err, results) {
+        console.log(result);
+        // startApp();
     });
 }
 
 function allDepts() {
-    db.query("SELECT * FROM department;", function (err, res) {
-        if (err) {
-            throw err
-        }
-        console.log(res);
-        startApp();
+    
+    db.query('SELECT * FROM department', function (err, results) {
+        console.log(results)
+        // startApp();
     });
 }
 
@@ -43,6 +39,6 @@ function allDepts() {
 module.exports = {
     allDepts,
     allEmploys,
-    allEmployRoles
+    allEmployRoles,
     // allDepts : allDepts
 }
