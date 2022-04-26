@@ -1,10 +1,10 @@
-SELECT employee.id AS "ID",
-       employee.first_name AS "First Name",
-       employee.last_name AS "Last Name",
-       emp_role.title AS "Title",
-       department.dept_name AS "Department",
-       emp_role.salary AS "Salary"
-
-FROM employee
-JOIN emp_role ON employee.role_id = emp_role.id
-JOIN department ON emp_role.dept_id = department.id;
+SELECT  emp_role.id AS "ID",
+        emp_role.title AS "Title",
+        emp_role.salary AS "Salary",
+        department.name AS dept
+                
+    FROM emp_role
+    JOIN department ON emp_role.dept_id = dept.id
+    LEFT JOIN emp_role dept
+    ON dept.id = emp_role.dept_id
+    ORDER BY emp_role.id
