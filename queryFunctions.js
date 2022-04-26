@@ -1,7 +1,12 @@
-const db = require('./connection')
+const db = require('./connection');
+require('console.table');
 
 function allEmploys() {
     
+    console.log('\n')
+    console.log("--- Browsing All Employees ---")
+    console.log('\n')
+
     let sql1 = `SELECT employee.id AS "ID",
                     employee.first_name AS "First Name",
                     employee.last_name AS "Last Name",
@@ -11,26 +16,35 @@ function allEmploys() {
 
                 FROM employee
                 JOIN emp_role ON employee.role_id = emp_role.id
-                JOIN department ON emp_role.dept_id = department.id;`
+                JOIN department ON emp_role.dept_id = department.id`
 
     db.query(sql1, (err, results) => {
-
-            // startApp();
+        console.table(results);
+        
     });
 }
 
 function allEmployRoles() {
+    
+    console.log('\n')
+    console.log("--- Browsing All Employee Roles ---")
+    console.log('\n')
+
     db.query('SELECT * FROM emp_role', function (err, results) {
-        console.log(result);
-        // startApp();
+        console.table(results);
+        
     });
 }
 
 function allDepts() {
     
+    console.log('\n')
+    console.log("--- Browsing All Departments ---")
+    console.log('\n')
+
     db.query('SELECT * FROM department', function (err, results) {
-        console.log(results)
-        // startApp();
+        console.table(results)
+        
     });
 }
 
@@ -40,5 +54,5 @@ module.exports = {
     allDepts,
     allEmploys,
     allEmployRoles,
-    // allDepts : allDepts
+  
 }

@@ -1,58 +1,6 @@
 const inquirer = require('inquirer');
-require('dotenv').config();
-const {db} = require('./connection')
 const { allDepts, allEmploys, allEmployRoles } = require('./queryFunctions')
-
-// const opt = ["ALL_DEPT", "ALL_ROLES"];
-function startApp() {
-    inquirer
-    .prompt([
-        {
-            type: "list",
-            name: "menu",
-            message: "What would you like to do?",
-            choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 
-            'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit']
-        }
-    ])
-        .then(userChoice => {
-            
-            switch (userChoice.menu) {
-                case "View All Employees":
-                    allEmploys;
-                    break;
-
-                case "Add Employee":
-                    addEmployee();
-                    break;
-
-                case "Update Employee Role":
-                    console.log("hello World")
-                    
-                    break;
-
-                case "View All Roles":
-                    allEmployRoles;
-                    break;
-
-                case "Add Role":
-                    addRole();
-                    break;
-
-                case "View All Departments":
-                   
-                    allDepts();
-                    
-                    break;
-
-                case "Add Department":
-                    addDepartment();
-                    break;
-
-                case "Quit":
-            }
-        })
-}
+require('console.table');
 
 // Banner that is displayed once index.js is initialized. Created using text art generator online.
 console.log(`
@@ -74,6 +22,60 @@ console.log(`
 |__________________________________________________________________________|
 
 `);
+
+function startApp() {
+    
+    inquirer
+    .prompt([
+        
+        {
+            type: "list",
+            name: "menu",
+            message: "What would you like to do?",
+            choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 
+            'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit']
+        }
+    ])
+        .then(userChoice => {
+            console.clear();
+            switch (userChoice.menu) {
+                case "View All Employees":
+                    allEmploys();
+                    startApp();
+                    break;
+
+                case "Add Employee":
+                    addEmployee;
+                    break;
+
+                case "Update Employee Role":
+                    
+                    
+                    break;
+
+                case "View All Roles":
+                    allEmployRoles();
+                    startApp();
+                    break;
+
+                case "Add Role":
+                    addRole;
+                    break;
+
+                case "View All Departments":
+                   
+                    allDepts();
+                    startApp();
+                    break;
+
+                case "Add Department":
+                    addDepartment();
+                    break;
+
+                case "Quit":
+            }
+        })
+}
 startApp();
 
 function addEmployee() {
@@ -146,4 +148,3 @@ function addRole() {
         })
     })
 }
-
