@@ -156,6 +156,10 @@ function addEmployee() {
 }
 
 function addDepartment() {
+    console.clear();
+    console.log('\n')
+    console.log("--- Adding New Department ---")
+    console.log('\n')
     inquirer
     .prompt([
         {
@@ -164,7 +168,14 @@ function addDepartment() {
             message: 'What is the name of the new department?'
         }
     ]).then(answers => {
-        db.query(`INSERT INTO department (name) Values (?)`, answers.deptName, (err, res) => {
+        const newDept = `INSERT INTO department SET ?`
+        db.query(newDept, {
+            dept_name: answers.deptName},
+            (err, res) => {
+                if (err) throw err;
+                console.log('\n');
+                console.log("--- New Department Successfully Added! ---");
+                console.log('\n');
             startApp();
         })
     })
