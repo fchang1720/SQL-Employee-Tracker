@@ -198,6 +198,11 @@ function chooseRole(employeeInfo) {
 }
 
 function finishUpdate(employeeInfo, roleOptions) {
+    console.clear();
+    console.log('\n')
+    console.log("--- Adding New Employee ---")
+    console.log('\n')
+    
     inquirer
     .prompt([
         {
