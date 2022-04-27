@@ -30,7 +30,7 @@ function startApp() {
 
                 case "Update Employee Role":
                     
-                    
+                    updateRole();
                     break;
 
                 case "View All Roles":
@@ -89,7 +89,15 @@ function allEmployRoles() {
     console.log("--- Browsing All Employee Roles ---")
     console.log('\n')
 
-    db.query('SELECT * FROM emp_role', (err, results) => {
+    let sql2 = `SELECT emp_role.id AS "ID",
+                    emp_role.title AS "Title",
+                    emp_role.salary AS "Salary",
+                    department.dept_name AS "Department"
+                
+                FROM emp_role
+                JOIN department ON emp_role.dept_id = department.id
+                ORDER BY emp_role.id`
+    db.query(sql2, (err, results) => {
         console.table(results);
         startApp();
     });
@@ -107,11 +115,14 @@ function allDepts() {
     });
 }
 
+
 function addEmployee() {
     console.clear();
     console.log('\n')
     console.log("--- Adding New Employee ---")
     console.log('\n')
+
+
     inquirer
     .prompt([
         {
@@ -154,6 +165,62 @@ function addEmployee() {
         })
     })
 }
+
+function updateRole() {
+    
+    const sql3 = `SELECT id,
+                    first_name,
+                    last_name
+                FROM employee`
+    db.query(sql3, (err,res) => {
+        if (err) throw err;
+        const employeeInfo = res.map(({id, first_name, last_name}) => ({
+            value: id,
+            name: `${first_name} ${last_name}`
+        }));
+        chooseRole(employeeInfo);
+    });
+}
+
+function chooseRole(employeeInfo) {
+    const sql4 = `SELECT id, 
+                    title
+                FROM emp_role`
+    db.query(sql4, (err,res) => {
+        if (err) throw err;
+        let roleOptions = res.map(({id, title}) => ({
+            value: id,
+            title: `${title}`
+        }));
+        finishUpdate(employeeInfo, roleOptions);
+    });
+
+}
+
+function finishUpdate(employeeInfo, roleOptions) {
+    inquirer
+    .prompt([
+        {
+            type: 'list',
+            name: 'employeeName',
+            message: 'What is the name of the employee that will update roles?',
+            choices: employeeInfo
+        },
+        {
+            type: 'list',
+            name: 'roleID',
+            message: 'What is the new role id?',
+            choices: roleOptions
+        },
+    ]).then((res) => {
+        let sql5 = `UPDATE employee SET role_id = ? WHERE id = ?`
+        db.query(sql5,[res.roleID, res.employeeName], (err, res) => {
+            if(err) throw err;
+            startApp();
+        })
+    })
+}
+
 
 function addDepartment() {
     console.clear();
